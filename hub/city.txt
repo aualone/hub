@@ -1,0 +1,58 @@
+#include <iostream>
+
+using namespace std;
+
+int NoEdge=1000;
+int n;
+int a[100][100];
+int cc=0;
+int bestx[100],bestc=NoEdge,x[100];
+void Swap(int *o,int *p)
+{
+    int c;
+    c=*o;
+    *o=*p;
+    *p=c;
+}
+void Backtrack(int i){
+{
+    if (i == n)
+    {
+        //int cc1=cc + a[x[n-1]][x[n]] + a[x[n]][1];
+        if (a[x[n-1]][x[n]] != NoEdge &&
+            a[x[n]][1] != NoEdge &&
+            (cc + a[x[n-1]][x[n]] + a[x[n]][1] < bestc || bestc == NoEdge))
+
+         {
+        for (int j = 1; j <= n; j++)
+              bestx[j] = x[j];
+             bestc = cc + a[x[n-1]][x[n]] + a[x[n]][1];
+          }
+    }
+  else
+     {// 是否可进入x[j]子树?
+    for (int j = i; j <= n; j++) // 搜索子树
+      if (a[x[i-1]][x[j]] != NoEdge && (cc+a[x[i-1]][x[i]] < bestc || bestc == NoEdge)) {
+        Swap(&x[i], &x[j]);
+        cc += a[x[i-1]][x[i]];
+        Backtrack(i+1);
+        cc -= a[x[i-1]][x[i]];
+        Swap(&x[i], &x[j]);}}
+}
+
+}
+int main()
+{
+    cin>>n;
+    for(int i=1;i<=n;i++)
+    for(int j=1;j<=n;j++)
+    cin>>a[i][j];
+    for(int j=1;j<=n;j++)
+    x[j]=j;
+        Backtrack(2);
+        cout<<bestc<<endl;
+        for(int j=1;j<=n;j++)
+    cout<<bestx[j]<<" ";
+
+}
+
