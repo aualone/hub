@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <iostream>
+#define N 1000
+double fun(int n)
+{
+    int i,p=0;
+    double x,y;
+    srand((int)time(NULL));
+    for(i=0;i<n;i++)
+    {
+        x=rand()/(double)RAND_MAX;
+        y=rand()/(double)RAND_MAX;
+        if(x*x+y*y<1)
+            p++;
+    }
+    return 4*(double)p/n;
+}
+int main()
+{
+    double pi;
+    pi=fun(N);
+    printf("%f\n",pi);
+    return 0;
+}
