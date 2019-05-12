@@ -1,0 +1,62 @@
+#include <iostream>
+using namespace std;
+float c;
+int n;
+int a[100]={0};
+float w[10];
+float v[10];
+float cw=0;
+float cv=0;
+float bestv=0;
+
+int bound(int i){
+    float cleft=c-cw;
+    float tempv=cv;
+
+    for(int j=i;j<=n;j++){
+        if(w[j]<cleft){
+            tempv+=v[j];
+            cleft-=w[j];
+         } else{
+            tempv+=v[j]*(cleft/w[j]);
+            break;
+         }
+     }
+     return tempv;
+}
+void knap(int i){
+    if(i>n){
+        bestv=cv;
+        return;
+    }
+    if(cw+w[i]<=c){
+        cw+=w[i];
+        cv+=v[i];
+        a[i]=1;
+        knap(i+1);      //  进入下一个节点
+        cw-=w[i];
+        cv-=v[i];
+}
+    if(bound(i+1)>bestv){
+        a[i] =0;
+        knap(i+1);
+    }
+}
+
+int main(){
+   cin>>c;
+   cin>>n;
+   int k;
+   w[0]=0;
+   v[0]=0;
+   for(k=1;k<=n;k++)
+   cin>>w[k];
+   for(k=1;k<=n;k++)
+   cin>>v[k];
+
+    knap(1);
+    cout<<bestv<<endl;
+    int j;
+    for(j=1;j<=n;j++)
+    cout<<a[j]<<" ";
+}
