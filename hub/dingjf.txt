@@ -1,0 +1,30 @@
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#define N 10000000
+double f(double x)
+{
+    return x*x/4;
+}
+double fun(int n)
+{
+    int i,p;
+    srand((int)time(NULL));
+    double x,y;
+    for(i=0;i<n;i++)
+    {
+        x=rand()/(double)RAND_MAX;
+        y=rand()/(double)RAND_MAX;
+        if(y<=f(x))
+            p++;
+    }
+    return p/(double)n;
+}
+int main()
+{
+    double j;
+    j=fun(N);
+    printf("%f ",j);
+    return 0;
+}
