@@ -1,0 +1,85 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+const int maxn=1e5+10;
+int w[maxn],v[maxn],val,r[maxn];
+bool ans[maxn];
+struct Node
+{
+    int rw;
+    int nv;
+    int level;
+    int flag;
+    Node * pNode;
+};
+queue<Node > q;
+int main()
+{
+    int n,W;
+   cin>>n>>W;
+
+        memset(r,0,sizeof(r));
+        for(int i=1; i<=n; i++)
+            cin>>w[i]>>v[i];
+        for(int i=n-1; i>=0; i--)
+            r[i]=r[i+1]+v[i+1];
+        Node tmp;
+        tmp.rw=W;
+        tmp.nv=0;
+        tmp.level=0;
+        tmp.flag=0;
+        tmp.pNode=NULL;
+        q.push(tmp);
+        Node bestnode=tmp;
+
+        while(!q.empty())
+        {
+            Node *tmp=&q.front();
+            q.pop();
+            if(tmp->level>=n)
+            {
+                if(bestnode.nv<tmp->nv)
+                {
+                    bestnode.nv=tmp->nv;
+                    bestnode.flag=tmp->flag;
+                    bestnode.pNode=tmp->pNode;
+                }
+                continue;
+            }
+            if(tmp->rw>=w[tmp->level+1])
+            {
+                Node s;
+                s.rw=tmp->rw-w[tmp->level+1];
+                s.nv=tmp->nv+v[tmp->level+1];
+                s.level=tmp->level+1;
+                s.pNode=tmp;
+                s.flag=1;
+                q.push(s);
+            }
+            if(tmp->nv+r[tmp->level]>bestnode.nv)
+            {
+                Node s;
+                s.rw=tmp->rw;
+                s.nv=tmp->nv;
+                s.level=tmp->level+1;
+                s.pNode=tmp;
+                s.flag=0;
+                q.push(s);
+            }
+        }
+        cout<<bestnode.nv<<endl;
+        Node *bt=&bestnode;
+        int o=0;
+        while(bt->pNode!=NULL)
+        {
+            ans[o++]=bt->flag;
+            bt=bt->pNode;
+        }
+        for(int i=o-1;i>=0;i--)
+        {
+            cout<<ans[i]<<" ";
+        }
+        cout<<endl;
+
+    return 0;
+}
